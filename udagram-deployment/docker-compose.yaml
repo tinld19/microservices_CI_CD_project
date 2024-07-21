@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  reverse-proxy:
+    image: tinld/reverse-proxy
+    ports:
+      - "8080:8080" # Ánh xạ cổng 80 của máy chủ đến cổng 80 của container
+    restart: always
+    depends_on:
+      - udagram-backend-user
+      - udagram-backend-feed
+
+  udagram-backend-user:
+    image: tinld/udagram-backend-user
+    environment:
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      AWS_REGION: $AWS_REGION
+      AWS_PROFILE: $AWS_PROFILE
+      AWS_BUCKET: $AWS_BUCKET
+      JWT_SECRET: $JWT_SECRET
+      URL: "http://localhost:8100"
+    # ports:
+    #   - "8081:8080"  # Ánh xạ cổng 8081 của máy chủ đến cổng 8080 của container
+
+  udagram-backend-feed:
+    image: tinld/udagram-backend-feed
+    environment:
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      AWS_REGION: $AWS_REGION
+      AWS_PROFILE: $AWS_PROFILE
+      AWS_BUCKET: $AWS_BUCKET
+      JWT_SECRET: $JWT_SECRET
+      URL: "http://localhost:8100"
+    # ports:
+    #   - "8082:8080"  # Ánh xạ cổng 8082 của máy chủ đến cổng 8080 của container
+
+  udagram-frontend:
+    image: tinld/udagram-frontend
+    ports:
+      - "8100:80" # Ánh xạ cổng 3000 của máy chủ đến cổng 80 của container

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  reverse-proxy:
+    build:
+      context: ./reverse-proxy
+      dockerfile: Dockerfile
+    image: tinld/reverse-proxy
+
+  udagram-backend-user:
+    build:
+      context: ../udagram-backend-user
+      dockerfile: Dockerfile
+    image: tinld/udagram-backend-user
+
+  udagram-backend-feed:
+    build:
+      context: ../udagram-backend-feed
+      dockerfile: Dockerfile
+    image: tinld/udagram-backend-feed
+
+  udagram-frontend:
+    build:
+      context: ../udagram-frontend
+      dockerfile: Dockerfile
+    image: tinld/udagram-frontend
