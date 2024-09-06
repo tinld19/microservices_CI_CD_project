@@ -16,7 +16,7 @@ spec:
         api: external
     spec:
       containers:
-        - image: tinld/udagram-frontend
+        - image: tinld/udagram-frontend:v6
           name: udagram-frontend
           imagePullPolicy: Always
           ports:
